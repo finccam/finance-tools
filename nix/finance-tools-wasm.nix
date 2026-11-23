@@ -42,7 +42,7 @@ rust-workspace.overrideAttrs (old: {
     runHook postBuild
   '';
 
-  # The bindings' Rust tests run natively in the `rust-workspace-tests` check;
+  # The bindings' Rust tests run natively in the `finance-tools` build;
   # the JS boundary is tested by the `js-test` check.
   doCheck = false;
 

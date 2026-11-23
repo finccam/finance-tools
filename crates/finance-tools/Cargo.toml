@@ -16,3 +16,8 @@ jiff.workspace = true
 
 [lints]
 workspace = true
+
+[dev-dependencies]
+# QuantLib, the reference implementation for `tests/quantlib.rs`.
+quantlib-ffi.workspace = true
+proptest = "1.11.0"

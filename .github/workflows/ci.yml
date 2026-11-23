@@ -22,9 +22,8 @@ jobs:
       - uses: DeterminateSystems/flake-checker-action@main
       - run: nix flake check -L
 
-  # The published crate must build and pass its tests on its declared
-  # `rust-version`. Only `finance-tools` itself: dev tooling crates may need
-  # a newer toolchain.
+  # The published crate must build on its declared `rust-version`. Only the
+  # library: its tests need QuantLib (see README) and run in `flake-check`.
   msrv:
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +33,4 @@ jobs:
           msrv=$(grep -m1 '^rust-version' Cargo.toml | cut -d'"' -f2)
           rustup toolchain install "$msrv" --profile minimal
           echo "MSRV=$msrv" >> "$GITHUB_ENV"
-      - uses: taiki-e/install-action@nextest
-      - run: cargo +"$MSRV" nextest run --locked --package finance-tools
-      # nextest does not run doctests.
-      - run: cargo +"$MSRV" test --locked --doc --package finance-tools
+      - run: cargo +"$MSRV" check --locked --package finance-tools --lib

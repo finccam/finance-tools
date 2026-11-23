@@ -1,9 +1,10 @@
-# The Cargo workspace at the repository root, built natively. The default
-# build covers only the publishable `finance-tools` crate and its own tests,
-# which need no system libraries; `flake.nix` derives the workspace-wide
-# checks (RustQuant parity, clippy) from this with `overrideAttrs`.
+# The Cargo workspace at the repository root, built natively. Builds the
+# publishable `finance-tools` crate and runs the whole workspace's tests,
+# including the property tests against QuantLib.
 {
   lib,
+  boost,
+  quantlib,
   rustPlatform,
 }:
 
@@ -20,6 +21,7 @@ rustPlatform.buildRustPackage {
     fileset = lib.fileset.unions [
       ../Cargo.toml
       ../Cargo.lock
+      ../clippy.toml
       ../LICENSE-MIT
       ../LICENSE-APACHE
       ../bindings/wasm
@@ -33,9 +35,13 @@ rustPlatform.buildRustPackage {
     "--package"
     "finance-tools"
   ];
-  cargoTestFlags = [
-    "--package"
-    "finance-tools"
+  cargoTestFlags = [ "--workspace" ];
+
+  # Only the tests need QuantLib: `quantlib-ffi` (a dev-dependency) compiles a
+  # C++ shim against it.
+  checkInputs = [
+    boost
+    quantlib
   ];
 
   # Tests run under cargo-nextest, which does not run doctests; those run

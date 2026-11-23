@@ -74,50 +74,26 @@
             node-modules
             ;
 
-          # `RustQuant_time` (parity tests only) enables `plotters`' default
-          # features, which pull in `font-kit` and with it fontconfig/freetype.
-          withParityDeps = old: {
-            nativeBuildInputs =
-              old.nativeBuildInputs ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.pkg-config ];
-            buildInputs =
-              (old.buildInputs or [ ])
-              ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
-                pkgs.fontconfig
-                pkgs.freetype
-              ];
-          };
         in
         {
           inherit finance-tools finance-tools-js finance-tools-js-tarball;
 
-          # `cargo nextest run --workspace` (RustQuant parity and the bindings'
-          # tests) plus the workspace's doctests.
-          rust-workspace-tests = finance-tools.overrideAttrs (
-            old:
-            withParityDeps old
-            // {
-              pname = "finance-tools-workspace-tests";
-              cargoTestFlags = [ "--workspace" ];
-              buildPhase = "runHook preBuild; runHook postBuild";
-              installPhase = "touch $out";
-            }
-          );
-
-          clippy = finance-tools.overrideAttrs (
-            old:
-            withParityDeps old
-            // {
-              pname = "finance-tools-clippy";
-              nativeBuildInputs = (withParityDeps old).nativeBuildInputs ++ [ pkgs.clippy ];
-              buildPhase = ''
-                runHook preBuild
-                cargo clippy --frozen --workspace --all-targets -- --deny warnings
-                runHook postBuild
-              '';
-              doCheck = false;
-              installPhase = "touch $out";
-            }
-          );
+          clippy = finance-tools.overrideAttrs (old: {
+            pname = "finance-tools-clippy";
+            nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.clippy ];
+            # `--all-targets` builds `quantlib-ffi`, which compiles against QuantLib.
+            buildInputs = (old.buildInputs or [ ]) ++ [
+              pkgs.boost
+              pkgs.quantlib
+            ];
+            buildPhase = ''
+              runHook preBuild
+              cargo clippy --frozen --workspace --all-targets -- --deny warnings
+              runHook postBuild
+            '';
+            doCheck = false;
+            installPhase = "touch $out";
+          });
 
           # What `cargo publish` would upload, built and verified offline.
           crate-package = finance-tools.overrideAttrs {
@@ -182,9 +158,11 @@
         { pkgs, system }:
         {
           default = pkgs.mkShell {
-            inputsFrom = [
-              self.checks.${system}.rust-workspace-tests
-              self.packages.${system}.finance-tools-wasm
+            inputsFrom = [ self.packages.${system}.finance-tools-wasm ];
+            # For `quantlib-ffi`, which the tests use as the reference.
+            buildInputs = [
+              pkgs.boost
+              pkgs.quantlib
             ];
             packages = [
               pkgs.cargo-nextest

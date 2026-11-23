@@ -3,7 +3,7 @@ resolver = "3"
 members = [
     "bindings/wasm",
     "crates/finance-tools",
-    "crates/finance-tools-parity",
+    "crates/quantlib-ffi",
 ]
 
 [workspace.package]
@@ -17,6 +17,9 @@ repository = "https://github.com/adamsmielewski-finccam/finance-tools"
 # `path` is used inside this workspace.
 finance-tools = { version = "0.1.0", path = "crates/finance-tools" }
 jiff = { version = "1.0.2", default-features = false, features = ["std"] }
+# Test-only reference implementation. No `version`: as a dev-dependency it is
+# stripped from the published manifest.
+quantlib-ffi = { path = "crates/quantlib-ffi" }
 
 [workspace.lints.rust]
 missing_docs = "warn"

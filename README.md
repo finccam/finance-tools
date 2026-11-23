@@ -5,8 +5,8 @@ JavaScript via WebAssembly.
 
 | Path                           | What                                                   | Published as          |
 | ------------------------------ | ------------------------------------------------------ | --------------------- |
-| `crates/finance-tools`         | The core crate: day count conventions on `jiff` dates. | crates.io             |
-| `crates/finance-tools-parity`  | Parity tests against `RustQuant_time`.                 | —                     |
+| `crates/finance-tools`         | The core crate: QuantLib's day counters on `jiff` dates. | crates.io           |
+| `crates/quantlib-ffi`          | Test-only FFI to QuantLib, the reference implementation. | —                   |
 | `bindings/wasm`                | `wasm-bindgen` bindings for the core crate.            | — (build input)       |
 | `packages/finance-tools`       | The npm package: a TypeScript API over the bindings.   | npm                   |
 | `nix/`                         | Derivations used by `flake.nix`.                       | —                     |
@@ -34,15 +34,31 @@ nix develop                               # shell with cargo, clippy, wasm-bindg
 nix fmt                                   # format Nix files
 ```
 
-`nix flake check` runs the crate's tests, the RustQuant parity tests, clippy
-(pedantic), rustfmt, `cargo package` for the crate, the JS tests against the
-packed package, `publint` and `attw` on the npm tarball, and nixfmt. CI also
-tests the crate on its declared `rust-version`.
+`nix flake check` runs the Rust tests (including the property tests against
+QuantLib), clippy (pedantic), rustfmt, `cargo package` for the crate, the JS
+tests against the packed package, `publint` and `attw` on the npm tarball, and
+nixfmt. CI also checks that the crate builds on its declared `rust-version`.
+
+## Testing against QuantLib
+
+The day counters are tested against [QuantLib](https://www.quantlib.org)
+itself, not against fixtures: `crates/quantlib-ffi` compiles a small C++ shim
+against QuantLib and exposes it to Rust, and `crates/finance-tools/tests/quantlib.rs`
+compares every day counter with it on random dates (proptest, biased towards
+month ends and February) and on every pair of edge-case days. A failing case
+is shrunk to a minimal pair of dates and recorded in
+`crates/finance-tools/tests/quantlib.proptest-regressions`; commit that file
+so the case is replayed on every run.
+
+`quantlib-ffi` is a dev-dependency only (it has no version, so `cargo publish`
+strips it), so neither QuantLib nor any C++ reaches users of the crate. The
+tests do need QuantLib and Boost, which Nix provides prebuilt from
+cache.nixos.org.
 
 Rust tests run under [cargo-nextest](https://nexte.st). Inside `nix develop`:
 
 ```sh
-cargo nextest run --workspace     # unit, integration and parity tests
+cargo nextest run --workspace     # unit tests and property tests against QuantLib
 cargo test --workspace --doc      # doctests (nextest does not run them)
 npm ci                            # JS tooling
 ```

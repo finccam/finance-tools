@@ -1,0 +1,10 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 8a89960502ea95fcbd11adffa0eb1ef32929b0316ea64e5c0df5b728032d6b12 # shrinks to dc = Thirty360 { convention: Italian, termination_date: None }, (d1, d2) = (1961-02-28, 1961-02-28), termination = Other(2040-06-01)
+cc f7c6cc1960710b753f23d674a674c22c3a30d9a80ba623edd99e6e2cf29f0c13 # shrinks to dc = Thirty360 { convention: Italian, termination_date: None }, ((d1, d2), reference) = ((1901-02-28, 2074-03-15), (1901-02-28, 1901-03-28))
+cc aff925f4e49faef480460768073df18349366705d9b974b0e161fd888fb1d1a6 # shrinks to dc = ActualActual(Afb), (d1, d2) = (2061-02-28, 1901-01-01), termination = None
+cc 86ec3da4048e798d4e4ed70a2051fdc1d3400020dd4b8d640a6c3d2593e0a32e # shrinks to dc = ActualActual(Afb), ((d1, d2), reference) = ((1971-02-19, 1973-02-28), (1971-02-19, 1971-03-19))
