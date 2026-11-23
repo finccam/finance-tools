@@ -74,11 +74,17 @@ by hand from a clean checkout of `main` after `nix flake check` passes:
 cargo publish --package finance-tools
 git tag finance-tools-v<version>
 
-# npm: bump `version` in packages/finance-tools/package.json, then
+# npm: bump the version in package.json and package-lock.json together
+npm version <version> --workspace packages/finance-tools --no-git-tag-version
+# commit and push the bump, then
 nix build .#finance-tools-js-tarball
-npm publish result/*.tgz
+npm publish --dry-run ./result/*.tgz   # inspect contents and version
+npm publish ./result/*.tgz
 git tag npm-finance-tools-v<version>
 ```
+
+The `./` matters: npm reads `result/<file>.tgz` without it as a GitHub
+`user/repo` shorthand.
 
 Publishing the tarball rather than running `npm publish` in the package
 directory ships exactly what `nix flake check` tested. Publish the crate first

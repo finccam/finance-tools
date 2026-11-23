@@ -1,9 +1,9 @@
 [package]
 name = "finance-tools"
 version = "0.1.0"
-description = "Financial calculation primitives: day count conventions on jiff civil dates."
+description = "QuantLib's day counters (Actual/360, Actual/Actual, 30/360, ...) in pure Rust on jiff dates, tested against QuantLib."
 readme = "README.md"
-keywords = ["finance", "day-count", "quant", "year-fraction"]
+keywords = ["finance", "day-count", "quantlib", "year-fraction", "fixed-income"]
 categories = ["finance", "date-and-time"]
 include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
 edition.workspace = true

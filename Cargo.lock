@@ -78,7 +78,7 @@ dependencies = [
 
 [[package]]
 name = "finance-tools-wasm"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "finance-tools",
  "wasm-bindgen",
@@ -241,7 +241,7 @@ dependencies = [
 
 [[package]]
 name = "quantlib-ffi"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "cc",
 ]

@@ -1,6 +1,6 @@
 [package]
 name = "finance-tools-wasm"
-version = "0.0.0"
+version = "0.1.0"
 description = "wasm-bindgen bindings for finance-tools, consumed by the finance-tools npm package."
 # A build input of `packages/finance-tools`, never published on its own.
 publish = false

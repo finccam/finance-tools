@@ -10,7 +10,7 @@ members = [
 edition = "2024"
 rust-version = "1.85"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/adamsmielewski-finccam/finance-tools"
+repository = "https://github.com/finccam/finance-tools"
 
 [workspace.dependencies]
 # `version` is what crates.io sees once `finance-tools` is published; the

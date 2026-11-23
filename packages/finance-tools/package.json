@@ -1,17 +1,19 @@
 {
   "name": "finance-tools",
   "version": "0.1.0",
-  "description": "Day count conventions for JavaScript, powered by the finance-tools Rust crate compiled to WebAssembly.",
+  "description": "QuantLib's day counters (Actual/360, Actual/Actual, 30/360, ...) for JavaScript, compiled from Rust to WebAssembly and tested against QuantLib.",
   "keywords": [
     "finance",
     "day-count",
     "year-fraction",
+    "quantlib",
+    "fixed-income",
     "wasm"
   ],
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adamsmielewski-finccam/finance-tools.git",
+    "url": "git+https://github.com/finccam/finance-tools.git",
     "directory": "packages/finance-tools"
   },
   "type": "module",

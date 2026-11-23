@@ -51,7 +51,7 @@ stdenvNoCC.mkDerivation {
 
   meta = {
     inherit (packageJson) description;
-    homepage = "https://github.com/adamsmielewski-finccam/finance-tools";
+    homepage = "https://github.com/finccam/finance-tools";
     license = with lib.licenses; [
       mit
       asl20
