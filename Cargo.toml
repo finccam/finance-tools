@@ -1,0 +1,35 @@
+[workspace]
+resolver = "3"
+members = [
+    "bindings/wasm",
+    "crates/finance-tools",
+    "crates/finance-tools-parity",
+]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/adamsmielewski-finccam/finance-tools"
+
+[workspace.dependencies]
+# `version` is what crates.io sees once `finance-tools` is published; the
+# `path` is used inside this workspace.
+finance-tools = { version = "0.1.0", path = "crates/finance-tools" }
+jiff = { version = "1.0.2", default-features = false, features = ["std"] }
+
+[workspace.lints.rust]
+missing_docs = "warn"
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+
+# Size-optimised profile for the wasm build only (`--profile release-wasm`).
+# Profiles are read from the workspace root only, so a plain `[profile.release]`
+# here would also change native release builds.
+[profile.release-wasm]
+inherits = "release"
+lto = true
+codegen-units = 1
+opt-level = "s"

@@ -1,0 +1,45 @@
+{
+  "name": "finance-tools",
+  "version": "0.1.0",
+  "description": "Day count conventions for JavaScript, powered by the finance-tools Rust crate compiled to WebAssembly.",
+  "keywords": [
+    "finance",
+    "day-count",
+    "year-fraction",
+    "wasm"
+  ],
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamsmielewski-finccam/finance-tools.git",
+    "directory": "packages/finance-tools"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "sideEffects": [
+    "./dist/wasm/finance_tools.js"
+  ],
+  "engines": {
+    "node": ">=24.5"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && cp -r src/wasm dist/wasm",
+    "test": "node --test"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

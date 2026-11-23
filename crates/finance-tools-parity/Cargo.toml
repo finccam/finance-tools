@@ -1,0 +1,21 @@
+[package]
+name = "finance-tools-parity"
+version = "0.0.0"
+description = "Parity tests of finance-tools against the RustQuant reference implementation."
+publish = false
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+# Kept out of `finance-tools` so its heavy dependency tree (`plotters`,
+# `font-kit`, system fontconfig/freetype) never reaches users of the published
+# crate or anyone running its own tests.
+[dev-dependencies]
+finance-tools.workspace = true
+jiff.workspace = true
+RustQuant_time = "=0.4.0"
+time = "0.3"
+
+[lints]
+workspace = true

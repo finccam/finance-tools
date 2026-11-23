@@ -1,0 +1,18 @@
+[package]
+name = "finance-tools"
+version = "0.1.0"
+description = "Financial calculation primitives: day count conventions on jiff civil dates."
+readme = "README.md"
+keywords = ["finance", "day-count", "quant", "year-fraction"]
+categories = ["finance", "date-and-time"]
+include = ["/src", "/README.md", "/LICENSE-MIT", "/LICENSE-APACHE"]
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+jiff.workspace = true
+
+[lints]
+workspace = true
