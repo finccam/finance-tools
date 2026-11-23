@@ -90,7 +90,8 @@
         {
           inherit finance-tools finance-tools-js finance-tools-js-tarball;
 
-          # `cargo test --workspace`: RustQuant parity and the bindings' tests.
+          # `cargo nextest run --workspace` (RustQuant parity and the bindings'
+          # tests) plus the workspace's doctests.
           rust-workspace-tests = finance-tools.overrideAttrs (
             old:
             withParityDeps old
@@ -186,6 +187,7 @@
               self.packages.${system}.finance-tools-wasm
             ];
             packages = [
+              pkgs.cargo-nextest
               pkgs.cargo-semver-checks
               pkgs.clippy
               pkgs.nodejs

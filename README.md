@@ -39,7 +39,13 @@ nix fmt                                   # format Nix files
 packed package, `publint` and `attw` on the npm tarball, and nixfmt. CI also
 tests the crate on its declared `rust-version`.
 
-Inside `nix develop`, plain `cargo test --workspace` and `npm ci` work too.
+Rust tests run under [cargo-nextest](https://nexte.st). Inside `nix develop`:
+
+```sh
+cargo nextest run --workspace     # unit, integration and parity tests
+cargo test --workspace --doc      # doctests (nextest does not run them)
+npm ci                            # JS tooling
+```
 
 ## Releasing
 

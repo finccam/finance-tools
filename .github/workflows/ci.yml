@@ -34,4 +34,7 @@ jobs:
           msrv=$(grep -m1 '^rust-version' Cargo.toml | cut -d'"' -f2)
           rustup toolchain install "$msrv" --profile minimal
           echo "MSRV=$msrv" >> "$GITHUB_ENV"
-      - run: cargo +"$MSRV" test --locked --package finance-tools
+      - uses: taiki-e/install-action@nextest
+      - run: cargo +"$MSRV" nextest run --locked --package finance-tools
+      # nextest does not run doctests.
+      - run: cargo +"$MSRV" test --locked --doc --package finance-tools

@@ -8,9 +8,9 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 
-# Kept out of `finance-tools` so its heavy dependency tree (`plotters`,
-# `font-kit`, system fontconfig/freetype) never reaches users of the published
-# crate or anyone running its own tests.
+# Kept out of `finance-tools` so that building and testing the published crate
+# (including its MSRV job and `cargo package` verification) never needs this
+# heavy dependency tree (`plotters`, `font-kit`, system fontconfig/freetype).
 [dev-dependencies]
 finance-tools.workspace = true
 jiff.workspace = true

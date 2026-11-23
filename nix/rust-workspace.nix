@@ -38,6 +38,13 @@ rustPlatform.buildRustPackage {
     "finance-tools"
   ];
 
+  # Tests run under cargo-nextest, which does not run doctests; those run
+  # separately with the same package selection.
+  useNextest = true;
+  postCheck = ''
+    cargo test --frozen --doc $cargoTestFlags
+  '';
+
   meta = {
     inherit (cargoToml.package) description;
     homepage = workspaceToml.workspace.package.repository;
