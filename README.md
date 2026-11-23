@@ -60,8 +60,8 @@ git tag npm-finance-tools-v<version>
 
 Publishing the tarball rather than running `npm publish` in the package
 directory ships exactly what `nix flake check` tested. Publish the crate first
-when an npm release depends on its changes. Tags are namespaced so they never
-match the `v*` tags that publish the flake to FlakeHub.
+when an npm release depends on its changes. Tags are namespaced per artifact
+because the two are versioned independently.
 
 ## License
 
